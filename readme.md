@@ -1,3 +1,6 @@
+# Laravel-WebApp-ToDoList
+Web app made with laravel an vue to display a to-do list and create tasks.
+
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 <p align="center">
