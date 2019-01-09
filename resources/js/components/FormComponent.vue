@@ -39,6 +39,7 @@
                     created_at: '12/12/12'
                 }
                 this.$emit('new', task);
+                this.description='';
             }
         },
     }

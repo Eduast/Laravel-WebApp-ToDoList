@@ -47827,7 +47827,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47847,6 +47846,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         addTask: function addTask(task) {
             this.tasks.push(task);
+        },
+        deleteTask: function deleteTask(index) {
+            this.tasks.splice(index, 1);
         }
     }
 });
@@ -47870,10 +47872,15 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _vm._l(_vm.tasks, function(task) {
+      _vm._l(_vm.tasks, function(task, index) {
         return _c("task-component", {
           key: _vm.tasks.id,
-          attrs: { task: task }
+          attrs: { task: task },
+          on: {
+            delete: function($event) {
+              _vm.deleteTask(index)
+            }
+          }
         })
       })
     ],
@@ -47983,6 +47990,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 created_at: '12/12/12'
             };
             this.$emit('new', task);
+            this.description = '';
         }
     }
 });
@@ -48110,41 +48118,9 @@ module.exports = Component.exports
 
 /***/ }),
 /* 47 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['task'],
-    data: function data() {
-        return {};
-    },
-    mounted: function mounted() {
-        console.log('Component mounted.');
-    }
-});
+throw new Error("Module build failed: SyntaxError: Unexpected token, expected , (29:27)\n\n\u001b[0m \u001b[90m 27 | \u001b[39m    data() {\n \u001b[90m 28 | \u001b[39m        \u001b[36mreturn\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 29 | \u001b[39m            editMode\u001b[33m:\u001b[39m \u001b[36mfalse\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m    | \u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 30 | \u001b[39m        }\n \u001b[90m 31 | \u001b[39m    }\u001b[33m,\u001b[39m\n \u001b[90m 32 | \u001b[39m    mounted() {\u001b[0m\n");
 
 /***/ }),
 /* 48 */
@@ -48161,29 +48137,51 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
-        _vm._v("\n            " + _vm._s(_vm.task.description) + "\n        ")
+        _c("p", [_vm._v(_vm._s(_vm.task.description))]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: {
+            type: "text",
+            name: "",
+            id: "",
+            "aria-describedby": "helpId",
+            placeholder: ""
+          }
+        })
       ]),
       _vm._v(" "),
-      _vm._m(0)
+      _c("div", { staticClass: "card-footer" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-default",
+            on: {
+              click: function($event) {
+                _vm.onClickEdit()
+              }
+            }
+          },
+          [_vm._v("\n                Editar\n            ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-danger",
+            on: {
+              click: function($event) {
+                _vm.onClickDelete()
+              }
+            }
+          },
+          [_vm._v("\n                Eliminar\n            ")]
+        )
+      ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-footer" }, [
-      _c("button", { staticClass: "btn btn-default" }, [
-        _vm._v("\n                Editar\n            ")
-      ]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-danger" }, [
-        _vm._v("\n                Eliminar\n            ")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

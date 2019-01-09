@@ -4,15 +4,14 @@
         <div class="col-md-8">
             <form-component @new="addTask"></form-component>
         </div>    
-
+     
+        <task-component 
+            v-for="(task, index) in tasks" 
+            :key="tasks.id" 
+            :task="task"
+            @delete="deleteTask(index)">
         
-            
-            <task-component 
-                v-for="task in tasks" 
-                :key="tasks.id" 
-                :task="task">
-            
-            </task-component>
+        </task-component>
         
     </div>
             
@@ -36,6 +35,9 @@
         methods: {
             addTask(task){
                 this.tasks.push(task);            
+            },
+            deleteTask(index){
+                this.tasks.splice(index,1);
             }
         },
     }
