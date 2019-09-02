@@ -47827,6 +47827,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47849,6 +47850,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         deleteTask: function deleteTask(index) {
             this.tasks.splice(index, 1);
+        },
+        updateTask: function updateTask(index, task) {
+            this.tasks[index] = task;
         }
     }
 });
@@ -47877,6 +47881,12 @@ var render = function() {
           key: _vm.tasks.id,
           attrs: { task: task },
           on: {
+            update: function($event) {
+              var i = arguments.length,
+                argsArray = Array(i)
+              while (i--) argsArray[i] = arguments[i]
+              _vm.updateTask.apply(void 0, [index].concat(argsArray))
+            },
             delete: function($event) {
               _vm.deleteTask(index)
             }
@@ -47984,6 +47994,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         newTask: function newTask() {
+            var params = {
+                description: this.description
+            };
+            axios.post('/tasks', params).then(function (response) {
+                return console.log(response);
+            });
             var task = {
                 id: 2,
                 description: this.description,
@@ -48118,9 +48134,63 @@ module.exports = Component.exports
 
 /***/ }),
 /* 47 */
-/***/ (function(module, exports) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-throw new Error("Module build failed: SyntaxError: Unexpected token, expected , (29:27)\n\n\u001b[0m \u001b[90m 27 | \u001b[39m    data() {\n \u001b[90m 28 | \u001b[39m        \u001b[36mreturn\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 29 | \u001b[39m            editMode\u001b[33m:\u001b[39m \u001b[36mfalse\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m    | \u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 30 | \u001b[39m        }\n \u001b[90m 31 | \u001b[39m    }\u001b[33m,\u001b[39m\n \u001b[90m 32 | \u001b[39m    mounted() {\u001b[0m\n");
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['task'],
+    data: function data() {
+        return {
+            editMode: false
+        };
+    },
+    mounted: function mounted() {
+        console.log('Component mounted.');
+    },
+
+    methods: {
+        onClickDelete: function onClickDelete() {
+            this.$emit('delete');
+        },
+        onClickEdit: function onClickEdit() {
+            this.editMode = true;
+        },
+        onClickUpdate: function onClickUpdate() {
+            this.editMode = false;
+            this.$emit('update', task);
+        }
+    }
+});
 
 /***/ }),
 /* 48 */
@@ -48137,33 +48207,62 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
-        _c("p", [_vm._v(_vm._s(_vm.task.description))]),
-        _vm._v(" "),
-        _c("input", {
-          staticClass: "form-control",
-          attrs: {
-            type: "text",
-            name: "",
-            id: "",
-            "aria-describedby": "helpId",
-            placeholder: ""
-          }
-        })
+        _vm.editMode
+          ? _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.task.description,
+                  expression: "task.description"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                name: "",
+                id: "",
+                "aria-describedby": "helpId"
+              },
+              domProps: { value: _vm.task.description },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.task, "description", $event.target.value)
+                }
+              }
+            })
+          : _c("p", [_vm._v(_vm._s(_vm.task.description))])
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "card-footer" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-default",
-            on: {
-              click: function($event) {
-                _vm.onClickEdit()
-              }
-            }
-          },
-          [_vm._v("\n                Editar\n            ")]
-        ),
+        _vm.editMode
+          ? _c(
+              "button",
+              {
+                staticClass: "btn btn-success",
+                on: {
+                  click: function($event) {
+                    _vm.onClickUpdate()
+                  }
+                }
+              },
+              [_vm._v("\n                Guardar\n            ")]
+            )
+          : _c(
+              "button",
+              {
+                staticClass: "btn btn-default",
+                on: {
+                  click: function($event) {
+                    _vm.onClickEdit()
+                  }
+                }
+              },
+              [_vm._v("\n                Editar\n            ")]
+            ),
         _vm._v(" "),
         _c(
           "button",

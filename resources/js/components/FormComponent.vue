@@ -33,6 +33,10 @@
         },
         methods: {
             newTask(){
+                const params = {
+                    description: this.description
+                };
+                axios.post('/tasks',params).then((response) => console.log(response));
                 let task = {
                     id: 2,
                     description: this.description,

@@ -4,13 +4,18 @@
         <div class="card-header">Creado el {{task.created_at}}</div>
 
         <div class="card-body">
-            <p>{{task.description}}</p>
-            <input type="text" class="form-control" name="" id="" aria-describedby="helpId" placeholder="">
-             
+            
+            <input v-if="editMode" type="text" class="form-control" name="" id="" aria-describedby="helpId" v-model="task.description">
+            
+            <p v-else>{{task.description}}</p>
+
         </div>
 
         <div class="card-footer">
-            <button class="btn btn-default" v-on:click="onClickEdit()">
+            <button v-if="editMode" class="btn btn-success" v-on:click="onClickUpdate()">
+                Guardar
+            </button>
+            <button v-else class="btn btn-default" v-on:click="onClickEdit()">
                 Editar
             </button>
             <button class="btn btn-danger" v-on:click="onClickDelete()">
@@ -26,7 +31,7 @@
         props: ['task'],
         data() {
             return {
-                editMode: false;
+                editMode: false
             }
         },
         mounted() {
@@ -37,7 +42,11 @@
                 this.$emit('delete');
             },
             onClickEdit(){
-                this.$emit('edit');
+                this.editMode = true;
+            },
+            onClickUpdate(){
+                this.editMode = false;
+                this.$emit('update',task);
             }
         },
     }
